@@ -20,6 +20,4 @@
 #include <fcntl.h>
 #include <stdbool.h>
 
-int main(__attribute__((unused))int ac, char **av);
-
 #endif
