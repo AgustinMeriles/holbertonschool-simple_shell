@@ -8,7 +8,7 @@
 int main(void)
 {
 	char *buffer;
-	size_t bufsize = 30; /* arbitrary number that's reasonably high*/
+	size_t bufsize = 1024; 
 
 	buffer = (char *)malloc(bufsize * sizeof(char));
 	if (!buffer)
