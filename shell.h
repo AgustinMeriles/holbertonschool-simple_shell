@@ -22,4 +22,8 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
+void execmd(char **argv);
+char *get_location(char *command);
+int fexit(char **argv);
+
 #endif
