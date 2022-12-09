@@ -1,4 +1,4 @@
-#include "main.h"
+#include "shell.h"
 /**
  *
  *
@@ -7,14 +7,14 @@
  **/
 int main(int ac, char **argv)
 {
-	char *prompt = "(S_shell) $ ";
-	char *lineptr = NULL, *lineptr_copy = NULL;
+	char *prompt = "(S_shell) $ ", *command;
+	char *lineptr = NULL, *lineptr_copy = NULL, *token;
 	size_t n = 0;
 	ssize_t nchars_read; /* number of characters the users types */
 	const char *delim = " \n";
-	int num_tokens = 0;
-	char *token;
-	int i;
+	int num_tokens = 0, i, fre, st;
+	pid_t myPID;
+	extern char **environ;
 
 	/*declaring void variables*/
 	(void)ac;
@@ -27,15 +27,17 @@ int main(int ac, char **argv)
 		/* check if the getline function failed or reached EOF or user use CTRL + D */ 
 		if (nchars_read == -1)
 		{
-			printf("Exiting shell....\n");
+			printf("\nEOF reached.\n");
+			free(lineptr);
 			return (-1);
 		}
 
 		/* allocate space for a copy of the lineptr */
 		lineptr_copy = malloc(sizeof(char) * nchars_read);
-		if (lineptr_copy== NULL)
+		if (lineptr_copy == NULL)
 		{
-			perror("tsh: memory allocation error");
+			perror("Unable to allocate memory.");
+			free(lineptr);
 			return (-1);
 		}
 		/* copy lineptr to lineptr_copy */
@@ -63,16 +65,46 @@ int main(int ac, char **argv)
 			argv[i] = malloc(sizeof(char) * strlen(token));
 			strcpy(argv[i], token);
 			token = strtok(NULL, delim);
+		};
+		argv[i] = NULL;
+
+		command = argv[0];
+
+		if (strcmp(command, "exit") == 0)
+		{
+			printf("bye-bye!\n");
+			free(lineptr);
+			free(lineptr_copy);
+			for (fre = 0; fre <= i; fre++)
+				free(argv[fre]);
+			free(argv);
+			exit(EXIT_SUCCESS);
 		}
-        	argv[i] = NULL;
 
         	/* execute the command */
-        	execmd(argv);
+        	myPID = fork();
 
+		if (myPID == 0)
+		{
+			if (execve(command, argv, environ) == -1)
+				perror("Error");
+			exit(EXIT_FAILURE);
+		}
+		else if (myPID == -1)
+			perror("Error");
+		else
+		{
+			do {
+				myPID = waitpid(myPID, &st, WUNTRACED);
+			} while (!WIFEXITED(st) && !WIFSIGNALED(st));
+		}
+
+		for (fre = 0; fre <= i; fre++)
+			free(argv[fre]);
 		free(argv);
 	}
 
-	/* free up allocated memory */ 
+	/* free up allocated memory */
 	free(lineptr_copy);
 	free(lineptr);
 
