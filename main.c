@@ -26,50 +26,33 @@ int main(__attribute__((unused))int ac, char **argv)
 		nchars_read = getline(&lineptr, &n, stdin);
 		if (nchars_read == -1)
 		{
-			printf("\nEOF reached.\n");
 			free(lineptr);
 			return (-1);
 		}
-
 		lineptr_copy = malloc(sizeof(char) * nchars_read);
-		if (lineptr_copy == NULL)
-		{
-			perror("Unable to allocate memory.");
-			free(lineptr);
-			return (-1);
-		}	
 		strcpy(lineptr_copy, lineptr);
-
 		token = strtok(lineptr, delim);
-
 		while (token != NULL)
 		{
 			num_tokens++;
 			token = strtok(NULL, delim);
-		}
-		num_tokens++;
-
+		} num_tokens++;
 		argv = malloc(sizeof(char *) * num_tokens);
-
 		token = strtok(lineptr_copy, delim);
-
 		for (i = 0; token != NULL; i++)
 		{
 			argv[i] = malloc(sizeof(char) * strlen(token));
 			strcpy(argv[i], token);
 			token = strtok(NULL, delim);
-		};
-		argv[i] = NULL;
-
+		} argv[i] = NULL;
 		command = argv[0];
-
 		if (strcmp(command, "exit") == 0)
 		{
 			printf("bye-bye!\n");
 			freeMul(argv, lineptr, lineptr_copy, i);
 			exit(EXIT_SUCCESS);
 		}
-        	exe = exect(command, argv);
+		exe = exect(command, argv);
 		if (exe == -1)
 		{
 			freeMul(argv, lineptr, lineptr_copy, i);
@@ -81,11 +64,19 @@ int main(__attribute__((unused))int ac, char **argv)
 	return (0);
 }
 
+/**
+ * exect - placeholder
+ *
+ * @command: placeholder
+ * @argvx: placeholder
+ *
+ * Return: placeholder
+ */
+
 int exect(char *command, char **argvx)
 {
 	pid_t myPID;
 	int st;
-	extern char **environ;
 
 	myPID = fork();
 
