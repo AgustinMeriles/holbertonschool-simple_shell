@@ -22,8 +22,8 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
-void execmd(char **argv);
-char *get_location(char *command);
-int fexit(char **argv);
+
+int freeMul(char **argvz, char *lineptr2, char *lineptr_copy2, int n);
+int freeMul2(char **argvz, char *lineptr_copy2, int n);
 
 #endif
