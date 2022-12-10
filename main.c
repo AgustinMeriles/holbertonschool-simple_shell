@@ -18,7 +18,7 @@ int main(__attribute__((unused))int ac, char **argv)
 	size_t n = 0;
 	ssize_t nchars_read;
 	const char *delim = " \n";
-	int num_tokens = 0, i, fre, exe;
+	int num_tokens = 0, i, exe;
 
 	while (1)
 	{
@@ -66,31 +66,17 @@ int main(__attribute__((unused))int ac, char **argv)
 		if (strcmp(command, "exit") == 0)
 		{
 			printf("bye-bye!\n");
-			free(lineptr);
-			free(lineptr_copy);
-			for (fre = 0; fre <= i; fre++)
-				free(argv[fre]);
-			free(argv);
+			freeMul(argv, lineptr, lineptr_copy, i);
 			exit(EXIT_SUCCESS);
 		}
         	exe = exect(command, argv);
 		if (exe == -1)
 		{
-			perror("Error");
-			free(lineptr);
-			free(lineptr_copy);
-			for (fre = 0; fre <= i; fre++)
-				free(argv[fre]);
-			free(argv);
+			freeMul(argv, lineptr, lineptr_copy, i);
 			exit(EXIT_FAILURE);
 		}
 		else if (exe == 0)
-		{
-			free(lineptr_copy);
-			for (fre = 0; fre <= i; fre++)
-				free(argv[fre]);
-			free(argv);
-		}
+			freeMul2(argv, lineptr_copy, i);
 	}
 	return (0);
 }
@@ -106,7 +92,10 @@ int exect(char *command, char **argvx)
 	if (myPID == 0)
 	{
 		if (execve(command, argvx, environ) == -1)
+		{
+			perror("Error");
 			return (-1);
+		}
 	}
 	else
 		wait(&st);
