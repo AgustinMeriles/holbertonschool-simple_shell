@@ -29,22 +29,27 @@ int main(__attribute__((unused))int ac, char **argv)
 			free(lineptr);
 			return (-1);
 		}
+
 		lineptr_copy = malloc(sizeof(char) * nchars_read);
 		strcpy(lineptr_copy, lineptr);
+
 		token = strtok(lineptr, delim);
 		while (token != NULL)
 		{
 			num_tokens++;
 			token = strtok(NULL, delim);
 		} num_tokens++;
+
 		argv = malloc(sizeof(char *) * num_tokens);
 		token = strtok(lineptr_copy, delim);
+
 		for (i = 0; token != NULL; i++)
 		{
 			argv[i] = malloc(sizeof(char) * strlen(token));
 			strcpy(argv[i], token);
 			token = strtok(NULL, delim);
 		} argv[i] = NULL;
+
 		command = argv[0];
 		if (strcmp(command, "exit") == 0)
 		{
@@ -52,6 +57,7 @@ int main(__attribute__((unused))int ac, char **argv)
 			freeMul(argv, lineptr, lineptr_copy, i);
 			exit(EXIT_SUCCESS);
 		}
+
 		exe = exect(command, argv);
 		if (exe == -1)
 		{
