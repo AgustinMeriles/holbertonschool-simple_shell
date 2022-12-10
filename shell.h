@@ -22,6 +22,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
+extern char **environ;
 
 int freeMul(char **argvz, char *lineptr2, char *lineptr_copy2, int n);
 int freeMul2(char **argvz, char *lineptr_copy2, int n);
