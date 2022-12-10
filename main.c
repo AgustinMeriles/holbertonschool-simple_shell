@@ -1,5 +1,7 @@
 #include "shell.h"
 
+int exect(char *command, char **argvx);
+
 /**
  * main - extremely basic interpretation of a standard UNIX shell
  *
@@ -16,9 +18,7 @@ int main(__attribute__((unused))int ac, char **argv)
 	size_t n = 0;
 	ssize_t nchars_read;
 	const char *delim = " \n";
-	int num_tokens = 0, i, fre, st;
-	pid_t myPID;
-	extern char **environ;
+	int num_tokens = 0, i, fre, exe;
 
 	while (1)
 	{
@@ -73,32 +73,42 @@ int main(__attribute__((unused))int ac, char **argv)
 			free(argv);
 			exit(EXIT_SUCCESS);
 		}
-        	myPID = fork();
-		if (myPID == 0)
+        	exe = exect(command, argv);
+		if (exe == -1)
 		{
-			if (execve(command, argv, environ) == -1)
-			{
-				perror("Error");
-				free(lineptr);
-				free(lineptr_copy);
-				for (fre = 0; fre <= i;fre++)
-					free(argv[fre]);
-				free(argv);
-				exit(EXIT_FAILURE);
-			}
-		}
-		else if (myPID == -1)
 			perror("Error");
-		else
-		{
-			do {
-				myPID = waitpid(myPID, &st, WUNTRACED);
-			} while (!WIFEXITED(st) && !WIFSIGNALED(st));
+			free(lineptr);
 			free(lineptr_copy);
 			for (fre = 0; fre <= i; fre++)
 				free(argv[fre]);
-			free(argv);	
+			free(argv);
+			exit(EXIT_FAILURE);
+		}
+		else if (exe == 0)
+		{
+			free(lineptr_copy);
+			for (fre = 0; fre <= i; fre++)
+				free(argv[fre]);
+			free(argv);
 		}
 	}
+	return (0);
+}
+
+int exect(char *command, char **argvx)
+{
+	pid_t myPID;
+	int st;
+	extern char **environ;
+
+	myPID = fork();
+
+	if (myPID == 0)
+	{
+		if (execve(command, argvx, environ) == -1)
+			return (-1);
+	}
+	else
+		wait(&st);
 	return (0);
 }
