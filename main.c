@@ -98,21 +98,41 @@ int exect(char *command, char **argvx)
 
 	if (ret != NULL)
 	{
-		myPID = fork();
-
-		if (myPID == 0)
+		if (_strcmp(ret, command) == 0)
 		{
-			if (execve(ret, argvx, environ) == -1)
+			myPID = fork();
+
+			if (myPID == 0)
 			{
-				free(ret);
-				return (-1);
+				if (execve(ret, argvx, environ) == -1)
+				{
+					return (-1);
+				}
 			}
+			else
+			{
+				wait(&st);
+			}
+			return (0);
 		}
 		else
-			wait(&st);
-		free(ret);
-		return (0);
+		{
+			myPID = fork();
+
+			if (myPID == 0)
+			{
+				if (execve(ret, argvx, environ) == -1)
+				{
+					return (-1);
+				}
+			}
+			else
+			{
+				wait(&st);
+				free(ret);
+			}
+			return (0);
+		}
 	}
-	free(ret);
 	return (1);
 }

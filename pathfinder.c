@@ -46,7 +46,9 @@ char *pathfinder(char *command)
 	free(pathcpy);
 
 	if (stat(command, &buffer) == 0)
+	{
 		return (command);
+	}
 
 	return (NULL);
 }
