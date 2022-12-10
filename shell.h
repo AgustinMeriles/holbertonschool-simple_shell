@@ -26,5 +26,8 @@ extern char **environ;
 
 int freeMul(char **argvz, char *lineptr2, char *lineptr_copy2, int n);
 int freeMul2(char **argvz, char *lineptr_copy2, int n);
+int _strlen(char *s);
+int _strcmp(char *s1, char *s2);
+char *_strcpy(char *dest, char *src);
 
 #endif

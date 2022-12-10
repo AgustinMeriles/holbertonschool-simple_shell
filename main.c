@@ -31,7 +31,7 @@ int main(__attribute__((unused))int ac, char **argv)
 		}
 
 		lineptr_copy = malloc(sizeof(char) * nchars_read);
-		strcpy(lineptr_copy, lineptr);
+		_strcpy(lineptr_copy, lineptr);
 
 		token = strtok(lineptr, delim);
 		while (token != NULL)
@@ -46,7 +46,7 @@ int main(__attribute__((unused))int ac, char **argv)
 		for (i = 0; token != NULL; i++)
 		{
 			argv[i] = malloc(sizeof(char) * strlen(token));
-			strcpy(argv[i], token);
+			_strcpy(argv[i], token);
 			token = strtok(NULL, delim);
 		} argv[i] = NULL;
 
@@ -90,7 +90,7 @@ int exect(char *command, char **argvx)
 	{
 		if (execve(command, argvx, environ) == -1)
 		{
-			perror("Error");
+			perror(command);
 			return (-1);
 		}
 	}
