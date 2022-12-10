@@ -27,6 +27,7 @@ int main(__attribute__((unused))int ac, char **argv)
 		if (nchars_read == -1)
 		{
 			free(lineptr);
+			printf("\nEOF Reached. Shutting down.\n");
 			return (-1);
 		}
 
@@ -51,7 +52,7 @@ int main(__attribute__((unused))int ac, char **argv)
 		} argv[i] = NULL;
 
 		command = argv[0];
-		if (strcmp(command, "exit") == 0)
+		if (_strcmp(command, "exit") == 0)
 		{
 			printf("bye-bye!\n");
 			freeMul(argv, lineptr, lineptr_copy, i);
@@ -61,11 +62,19 @@ int main(__attribute__((unused))int ac, char **argv)
 		exe = exect(command, argv);
 		if (exe == -1)
 		{
+			perror(command);
 			freeMul(argv, lineptr, lineptr_copy, i);
 			exit(EXIT_FAILURE);
 		}
 		else if (exe == 0)
+		{
 			freeMul2(argv, lineptr_copy, i);
+		}
+		else if (exe == 1)
+		{
+			perror(command);
+			freeMul2(argv, lineptr_copy, i);
+		}
 	}
 	return (0);
 }
@@ -81,20 +90,29 @@ int main(__attribute__((unused))int ac, char **argv)
 
 int exect(char *command, char **argvx)
 {
+	char *ret = NULL;
 	pid_t myPID;
 	int st;
 
-	myPID = fork();
+	ret = pathfinder(command);
 
-	if (myPID == 0)
+	if (ret != NULL)
 	{
-		if (execve(command, argvx, environ) == -1)
+		myPID = fork();
+
+		if (myPID == 0)
 		{
-			perror(command);
-			return (-1);
+			if (execve(ret, argvx, environ) == -1)
+			{
+				free(ret);
+				return (-1);
+			}
 		}
+		else
+			wait(&st);
+		free(ret);
+		return (0);
 	}
-	else
-		wait(&st);
-	return (0);
+	free(ret);
+	return (1);
 }

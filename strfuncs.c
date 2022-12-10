@@ -50,3 +50,58 @@ dest[times] = src[times];
 }
 return (dest);
 }
+
+/**
+*_strdup - duplicates a string essentially
+*@str: the string
+*Return: pointer
+*/
+
+char *_strdup(char *str)
+{
+int a;
+int b;
+char *cpy;
+
+if (str == NULL)
+{
+return (NULL);
+}
+for (a = 0; str[a]; a++)
+{
+;
+}
+a++;
+cpy = malloc(a *sizeof(char));
+if (cpy == NULL)
+{
+return (NULL);
+}
+for (b = 0; b < a; b++)
+{
+cpy[b] = str[b];
+}
+return (cpy);
+}
+
+/**
+*_strcat - concatenate
+* @dest: concatinated destination
+* @src: concatenated source
+*Return: pointer to the concatenated string
+*/
+
+char *_strcat(char *dest, char *src)
+{
+int arr1;
+int arr2;
+
+for (arr2 = 0; dest[arr2] != '\0'; arr2++)
+{}
+for (arr1 = 0; src[arr1] != '\0'; arr1++)
+{
+dest[arr2 + arr1] = src[arr1];
+}
+dest[arr2 + arr1] = '\0';
+return (dest);
+}

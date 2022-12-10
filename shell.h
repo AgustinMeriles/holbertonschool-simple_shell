@@ -21,6 +21,7 @@
 #include <stdbool.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <sys/stat.h>
 
 extern char **environ;
 
@@ -29,5 +30,8 @@ int freeMul2(char **argvz, char *lineptr_copy2, int n);
 int _strlen(char *s);
 int _strcmp(char *s1, char *s2);
 char *_strcpy(char *dest, char *src);
+char *_strdup(char *str);
+char *_strcat(char *dest, char *src);
+char *pathfinder(char *command);
 
 #endif
