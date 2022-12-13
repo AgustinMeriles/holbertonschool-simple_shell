@@ -1,0 +1,18 @@
+.\" Manpage for our simple shell.
+
+.TH man 1 "12 Dec 2022" "1.0" "s_shell man page"
+
+.SH NAME
+simple_shell \- emulate a standard UNIX shell
+
+.SH SYNOPSIS
+input "./hsh" into the CLI to run. Handles any command provided by the PATH and a couple builtins such as exit and env.
+
+.SH DESCRIPTION
+s_shell parses a line provided via stdin, tokenizes it and executes any appropiate command given. Arguments are parsed and applied as well when necessary.
+
+.SH BUGS
+Fortunately, theer are no known bugs at the moment.
+
+.SH AUTHOR
+Mauricio de Betolaza and Agustin Meriles
