@@ -52,6 +52,9 @@ int main(__attribute__((unused))int ac, char **argv)
 		} argv[i] = NULL;
 
 		command = argv[0];
+		if (!command)
+			return (-1);
+
 		if (_strcmp(command, "exit") == 0)
 		{
 			printf("bye-bye!\n");
@@ -85,7 +88,7 @@ int main(__attribute__((unused))int ac, char **argv)
  * @command: pointer to the string holding the concept
  * @argvx: argv passed to execve
  *
- * Return: -1 if execve does not work, 0 from parent for success, 
+ * Return: -1 if execve does not work, 0 from parent for success,
  * 1 if command does not exist
  */
 
