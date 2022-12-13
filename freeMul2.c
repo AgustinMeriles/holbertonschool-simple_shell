@@ -1,13 +1,13 @@
 #include "shell.h"
 
 /**
- * freeMul2 - wip
+ * freeMul2 - Frees multiple slots of memory at once
  *
- * @argvz: wip
- * @lineptr_copy2: wip
- * @n: wip
+ * @argvz: argument vector passed to main
+ * @lineptr_copy2: pointer to an array of strings
+ * @n: int set to the number of chars in the argv array
  *
- * Return: wip
+ * Return: Always 0 for success
  */
 
 int freeMul2(char **argvz, char *lineptr_copy2, int n)

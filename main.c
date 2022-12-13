@@ -80,12 +80,13 @@ int main(__attribute__((unused))int ac, char **argv)
 }
 
 /**
- * exect - placeholder
+ * exect - Executes the command passed to main
  *
- * @command: placeholder
- * @argvx: placeholder
+ * @command: pointer to the string holding the concept
+ * @argvx: argv passed to execve
  *
- * Return: placeholder
+ * Return: -1 if execve does not work, 0 from parent for success, 
+ * 1 if command does not exist
  */
 
 int exect(char *command, char **argvx)
